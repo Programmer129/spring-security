@@ -1,0 +1,31 @@
+create database test;
+
+use test;
+
+create table users(
+  username varchar(50) primary key not null,
+  password varchar(50) not null,
+  enabled tinyint(1) not null
+) engine=InnoDB default charset=latin1;
+
+create table authorities(
+  username varchar(50) not null,
+  authority varchar(50) not null,
+  unique key authorities_idx_1 (username, authority),
+  foreign key (username) references users(username)
+) engine=InnoDB default charset=latin1;
+
+insert into users(username, password, enabled)
+values
+  ('avto', 'gameri21', 1),
+  ('ana', 'telefoni', 1),
+  ('givi', 'jari', 1),
+  ('mari', 'sarke', 1);
+
+insert into authorities(username, authority)
+VALUES
+  ('avto','ROLE_USER'),
+  ('avto','ROLE_ADMIN'),
+  ('ana','ROLE_USER'),
+  ('givi','ROLE_USER'),
+  ('mari','ROLE_USER');

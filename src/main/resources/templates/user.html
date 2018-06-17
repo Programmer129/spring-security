@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="webjars/bootstrap/4.1.1/js/bootstrap.js"></script>
+</head>
+<body>
+<h1 th:text="${current}">Hello</h1>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th><a class="sorted">User name</a></th>
+        <th><a class="sorted">Password</a></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <th><a class="sorted" th:text="${user.userName}">First name</a></th>
+        <th><a class="sorted" th:text="${user.password}">Last name</a></th>
+        <th th:if="${user.userName.equals(current)}"><button>Edit</button></th>
+        <th th:unless="${user.userName.equals(current)}"><button disabled>Edit</button></th>
+        <th><button disabled>Block</button></th>
+        <th></th>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
