@@ -63,7 +63,7 @@ public class SecurityController {
 
     @GetMapping("/edit/{userName}")
     public String editUser(@PathVariable String userName, Model model, HttpServletRequest request) {
-        if(request.isUserInRole("USER") && !userService.currentUser().equals(userName)) {
+        if(request.isUserInRole("USER") && !request.isUserInRole("ADMIN") && !userService.currentUser().equals(userName)) {
             return "access-denied";
         }
         model.addAttribute("user", userService.findOne(userName));
