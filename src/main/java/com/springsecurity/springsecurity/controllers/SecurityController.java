@@ -72,7 +72,7 @@ public class SecurityController {
 
     @PostMapping("/update/{userName}")
     public String update(@ModelAttribute Users user, @PathVariable String userName, HttpServletRequest request) {
-        if(request.isUserInRole("USER") && !userService.currentUser().equals(userName)) {
+        if(request.isUserInRole("USER") && !request.isUserInRole("ADMIN") && !userService.currentUser().equals(userName)) {
             return "access-denied";
         }
         userService.editUser(user, userName);

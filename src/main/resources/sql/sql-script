@@ -4,6 +4,8 @@ use test;
 
 create table users(
   username varchar(50) primary key not null,
+  firstname varchar(50) not null,
+  lastname varchar(50) not null,
   password varchar(50) not null,
   enabled tinyint(1) not null
 ) engine=InnoDB default charset=latin1;
@@ -12,20 +14,18 @@ create table authorities(
   username varchar(50) not null,
   authority varchar(50) not null,
   unique key authorities_idx_1 (username, authority),
-  foreign key (username) references users(username)
+  foreign key (username) references users(username) on delete cascade on update cascade
 ) engine=InnoDB default charset=latin1;
 
-insert into users(username, password, enabled)
+insert into users(username,firstname,lastname, password, enabled)
 values
-  ('avto', 'gameri21', 1),
-  ('ana', 'telefoni', 1),
-  ('givi', 'jari', 1),
-  ('mari', 'sarke', 1);
+  ('Admin','Admin FirstName','Admin LastName', 'adminpass', 1),
+  ('User-1','User-1 FirstName','User-1 LastName', 'user1pass', 1),
+  ('User-2','User-2 FirstName','User-2 LastName', 'user2pass', 1);
 
 insert into authorities(username, authority)
 VALUES
-  ('avto','ROLE_USER'),
-  ('avto','ROLE_ADMIN'),
-  ('ana','ROLE_USER'),
-  ('givi','ROLE_USER'),
-  ('mari','ROLE_USER');
+  ('Admin','ROLE_USER'),
+  ('Admin','ROLE_ADMIN'),
+  ('User-1','ROLE_USER'),
+  ('User-2','ROLE_USER');
