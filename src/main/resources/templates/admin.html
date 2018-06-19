@@ -11,6 +11,8 @@
     <thead>
     <tr>
         <th><a class="sorted">User name</a></th>
+        <th><a class="sorted">First name</a></th>
+        <th><a class="sorted">Last name</a></th>
         <th><a class="sorted">Password</a></th>
         <th><a class="sorted">Enabled</a></th>
         <th></th>
@@ -19,9 +21,11 @@
     <tbody>
     <tr th:each="user : ${users}">
         <th><a class="sorted" th:text="${user.userName}">First name</a></th>
+        <th><a class="sorted" th:text="${user.firstName}">First name</a></th>
+        <th><a class="sorted" th:text="${user.lastName}">First name</a></th>
         <th><a class="sorted" th:text="${user.password}">Last name</a></th>
         <th><a class="sorted" th:text="${user.enabled}">Block</a></th>
-        <th><button>Edit</button></th>
+        <th><a th:href="@{/edit/__${user.userName}__}">Edit</a></th>
         <th>
             <a th:if="${user.enabled==true}" th:href="@{/block/__${user.userName}__}">Block</a>
             <a th:unless="${user.enabled==true}" th:href="@{/block/__${user.userName}__}">Unblock</a>

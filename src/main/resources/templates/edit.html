@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="webjars/bootstrap/4.1.1/js/bootstrap.js"></script>
+</head>
+<body>
+    <form action="#" th:action="@{/update/__${user.userName}__}" th:object="${user}" method="post">
+        <p>
+            <label for="firstName">First name:</label>
+            <input id="firstName" name="firstName" type="text" th:value="${user.firstName}">
+        </p>
+        <p>
+            <label for="lastName">Last name: </label>
+            <input id="lastName" name="lastName" type="text" th:value="${user.lastName}">
+        </p>
+
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>

@@ -31,6 +31,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public Users findOne(String userName) {
+        return userRepository.findByUserName(userName);
+    }
+
     @Transactional
     public void updateUserState(String userName) {
         Users user = userRepository.findByUserName(userName);
@@ -51,5 +55,14 @@ public class UserService {
     public String currentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
+    }
+
+    @Transactional
+    public void editUser(Users user, String userName) {
+        Query query = manager.createNativeQuery("update users set firstname=:fname,lastname=:lname where username=:uname");
+        query.setParameter("fname", user.getFirstName());
+        query.setParameter("lname", user.getLastName());
+        query.setParameter("uname", userName);
+        query.executeUpdate();
     }
 }

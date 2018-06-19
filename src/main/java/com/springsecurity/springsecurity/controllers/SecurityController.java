@@ -1,13 +1,18 @@
 package com.springsecurity.springsecurity.controllers;
 
+import com.springsecurity.springsecurity.entities.Users;
 import com.springsecurity.springsecurity.servicies.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/")
@@ -21,10 +26,13 @@ public class SecurityController {
     }
 
     @GetMapping()
-    public String user(@RequestParam(name="users", required=false) String users, Model model) {
+    public String user(@RequestParam(name="users", required=false) String users, Model model, HttpServletRequest request) {
         model.addAttribute("users", userService.findAll());
-        model.addAttribute("current", userService.currentUser());
-        return "user";
+        String currentUserName = userService.currentUser();
+        String page = "user";
+        model.addAttribute("current", currentUserName);
+        if (request.isUserInRole("ADMIN")) page = "admin";
+        return page;
     }
 
     @GetMapping("admin")
@@ -51,5 +59,23 @@ public class SecurityController {
         userService.deleteUser(userName);
 
         return "redirect:/admin";
+    }
+
+    @GetMapping("/edit/{userName}")
+    public String editUser(@PathVariable String userName, Model model, HttpServletRequest request) {
+        if(request.isUserInRole("USER") && !userService.currentUser().equals(userName)) {
+            return "access-denied";
+        }
+        model.addAttribute("user", userService.findOne(userName));
+        return "edit";
+    }
+
+    @PostMapping("/update/{userName}")
+    public String update(@ModelAttribute Users user, @PathVariable String userName, HttpServletRequest request) {
+        if(request.isUserInRole("USER") && !userService.currentUser().equals(userName)) {
+            return "access-denied";
+        }
+        userService.editUser(user, userName);
+        return request.isUserInRole("ADMIN")? "redirect:/admin" : "redirect:/";
     }
 }

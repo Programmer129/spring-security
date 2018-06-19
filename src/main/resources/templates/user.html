@@ -11,6 +11,8 @@
     <thead>
     <tr>
         <th><a class="sorted">User name</a></th>
+        <th><a class="sorted">First name</a></th>
+        <th><a class="sorted">Last name</a></th>
         <th><a class="sorted">Password</a></th>
         <th></th>
     </tr>
@@ -18,10 +20,11 @@
     <tbody>
     <tr th:each="user : ${users}">
         <th><a class="sorted" th:text="${user.userName}">First name</a></th>
+        <th><a class="sorted" th:text="${user.firstName}">First name</a></th>
+        <th><a class="sorted" th:text="${user.lastName}">First name</a></th>
         <th><a class="sorted" th:text="${user.password}">Last name</a></th>
-        <th th:if="${user.userName.equals(current)}"><button>Edit</button></th>
+        <th th:if="${user.userName.equals(current)}"><a th:href="@{/edit/__${user.userName}__}">Edit</a></th>
         <th th:unless="${user.userName.equals(current)}"><button disabled>Edit</button></th>
-        <th><button disabled>Block</button></th>
         <th></th>
     </tr>
     </tbody>
